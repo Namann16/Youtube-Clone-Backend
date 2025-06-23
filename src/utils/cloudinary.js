@@ -1,7 +1,6 @@
 import {v2 as cloudinary} from "cloudinary"
 import fs from "fs" 
 
-import { v2 as cloudinary } from 'cloudinary';
 
 
     // Configuration
@@ -22,6 +21,7 @@ const uploadOnCloudinary = async(FilePath) => {
         console.log("File is uploaded on Cloudinary",
             response.url
         )
+        fs.unlinkSync(FilePath)
         return response
     } 
     catch( error ) {
@@ -29,3 +29,5 @@ const uploadOnCloudinary = async(FilePath) => {
         return null
     }
 }
+
+export {uploadOnCloudinary}

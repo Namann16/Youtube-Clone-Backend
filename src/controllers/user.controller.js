@@ -17,8 +17,8 @@ const registerUser = asyncHandler ( async (req, res) => {
 
 
     // get user details from frontend
-    const { fullName, email, username, password} = req.body
-    console.log("email:", email)
+    const { fullname, emails, username, password} = req.body
+    console.log("email:", emails)
 
     // validation - not empty
 
@@ -27,16 +27,16 @@ const registerUser = asyncHandler ( async (req, res) => {
     // }
 
     if(
-        [fullName, email, username, password].some((field) => field?.trim() ==="")
+        [fullname, emails, username, password].some((field) => field?.trim() ==="")
         ){
         throw new ApiError("All fields are required");
     }
 
     // check if user already exists: email or username
 
-    const existingUser = User.findOne(
+    const existingUser = await User.findOne(
         {
-            $or: [{ username } , { email }] // checks if any one of these fields match
+            $or: [{ username } , { emails }] // checks if any one of these fields match
         }
     )
 
@@ -62,12 +62,12 @@ const registerUser = asyncHandler ( async (req, res) => {
     // create user objecy - create entry in db
 
     const user = await User.create({
-        fullName,
+        fullname,
         avatar: avatar.url,
         coverImage: coverImage.url || "",
-        email,
+        emails,
         password,
-        username: username.tolowercase()
+        username: username.toLowerCase()
     })
 
     // remove password field and refreshToken field
@@ -78,7 +78,7 @@ const registerUser = asyncHandler ( async (req, res) => {
     
     // check if user is created.
 
-    if(createdUser){
+    if(!createdUser){
         throw new ApiError(500, "User not created")
     }
 
