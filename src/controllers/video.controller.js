@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { generateAIVideoThumbnail } from "../utils/aiService.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query = "", sortBy = "createdAt", sortType = "desc", userId } = req.query;
@@ -32,22 +33,34 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
-    const { title, description } = req.body;
+    const { title, description, useAITumbnail = false } = req.body;
     const videoFile = req.files?.videoFile?.[0];
     const thumbnailFile = req.files?.thumbnail?.[0];
 
-    if (!videoFile || !thumbnailFile) {
-        throw new ApiError(400, "Video and thumbnail files are required");
+    if (!videoFile) {
+        throw new ApiError(400, "Video file is required");
     }
 
     const uploadedVideo = await uploadOnCloudinary(videoFile.path, "video");
-    const uploadedThumbnail = await uploadOnCloudinary(thumbnailFile.path);
-
     const duration = uploadedVideo?.duration || 0;
+
+    let thumbnailUrl;
+    
+    if (useAITumbnail) {
+        // Generate AI thumbnail
+        thumbnailUrl = await generateAIVideoThumbnail(uploadedVideo.url, title);
+    } else if (thumbnailFile) {
+        // Use uploaded thumbnail
+        const uploadedThumbnail = await uploadOnCloudinary(thumbnailFile.path);
+        thumbnailUrl = uploadedThumbnail.url;
+    } else {
+        throw new ApiError(400, "Either thumbnail file or AI thumbnail generation is required");
+    }
 
     const video = await Video.create({
         videoFile: uploadedVideo.url,
-        thumbnail: uploadedThumbnail.url,
+        thumbnail: thumbnailUrl,
+        aiGeneratedThumbnail: useAITumbnail ? thumbnailUrl : null,
         title,
         description,
         duration,

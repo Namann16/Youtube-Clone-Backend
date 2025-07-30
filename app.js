@@ -24,6 +24,7 @@ import commentRouter from "./src/routes/comment.routes.js"
 import likeRouter from "./src/routes/like.routes.js"
 import playlistRouter from "./src/routes/playlist.routes.js"
 import dashboardRouter from "./src/routes/dashboard.routes.js"
+import aiRouter from "./src/routes/ai.routes.js"
 
 app.use("/api/v1/healthcheck", healthcheckRouter)
 app.use("/api/v1/users", userRouter)
@@ -34,6 +35,7 @@ app.use("/api/v1/comments", commentRouter)
 app.use("/api/v1/likes", likeRouter)
 app.use("/api/v1/playlist", playlistRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
+app.use("/api/v1/ai", aiRouter)
 
 
 export { app }

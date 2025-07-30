@@ -34,6 +34,45 @@ const videoSchema = new Schema(
         owner: {
             type: Schema.Types.ObjectId,
             ref: "User"
+        },
+        // AI-generated content fields
+        aiGeneratedThumbnail: {
+            type: String, // AI-generated thumbnail URL
+            default: null
+        },
+        captions: {
+            type: [{
+                start: Number,
+                end: Number,
+                text: String
+            }],
+            default: []
+        },
+        transcript: {
+            type: String,
+            default: ""
+        },
+        tags: {
+            type: [String],
+            default: []
+        },
+        socialMediaCaptions: {
+            type: {
+                instagram: String,
+                twitter: String,
+                linkedin: String,
+                facebook: String,
+                tiktok: String
+            },
+            default: {}
+        },
+        aiGeneratedDescription: {
+            type: String,
+            default: ""
+        },
+        language: {
+            type: String,
+            default: "en"
         }
 
     }, 
