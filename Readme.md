@@ -312,7 +312,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Your Name**
 - GitHub: [@Namann16](https://github.com/Namann16)
-- LinkedIn: [](https://www.linkedin.com/in/naman16/)
+- LinkedIn: [My LinkedIn](https://www.linkedin.com/in/naman16/)
 
 ## 🙏 Acknowledgments
 
