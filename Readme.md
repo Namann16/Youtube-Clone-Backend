@@ -16,7 +16,7 @@ A full-featured YouTube clone backend built with Node.js, Express, and MongoDB, 
 - **Search & Filtering** - Advanced video search with pagination
 - **Watch History** - Track user viewing history
 
-### 🤖 AI-Powered Features (Resume Highlights)
+### 🤖 AI-Powered Features
 
 #### 1. **AI Caption Generation**
 - **Technology**: OpenAI Whisper API
@@ -231,8 +231,6 @@ CORS_ORIGIN=http://localhost:3000
   language: String
 }
 ```
-
-## 🎯 Resume Impact
 
 ### Technical Skills Demonstrated
 1. **AI/ML Integration** - OpenAI API integration with multiple models
